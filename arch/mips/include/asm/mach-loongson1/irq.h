@@ -36,10 +36,17 @@
 #define LS1X_IRQ_BASE			MIPS_CPU_IRQS
 #define LS1X_IRQ(n, x)			(LS1X_IRQ_BASE + (n << 5) + (x))
 
+#if defined(CONFIG_LOONGSON1_LS1C)
+#define LS1X_UART0_IRQ			LS1X_IRQ(0, 0)
+#define LS1X_UART1_IRQ			LS1X_IRQ(0, 4)
+#define LS1X_UART2_IRQ			LS1X_IRQ(0, 5)
+#define LS1X_UART3_IRQ			LS1X_IRQ(0, 29)
+#else
 #define LS1X_UART0_IRQ			LS1X_IRQ(0, 2)
 #define LS1X_UART1_IRQ			LS1X_IRQ(0, 3)
 #define LS1X_UART2_IRQ			LS1X_IRQ(0, 4)
 #define LS1X_UART3_IRQ			LS1X_IRQ(0, 5)
+#endif
 #define LS1X_CAN0_IRQ			LS1X_IRQ(0, 6)
 #define LS1X_CAN1_IRQ			LS1X_IRQ(0, 7)
 #define LS1X_SPI0_IRQ			LS1X_IRQ(0, 8)
@@ -63,10 +70,23 @@
 
 #define LS1X_EHCI_IRQ			LS1X_IRQ(1, 0)
 #define LS1X_OHCI_IRQ			LS1X_IRQ(1, 1)
+
+#if defined(CONFIG_LOONGSON1_LS1C)
+#define LS1X_GMAC0_IRQ			LS1X_IRQ(1, 3)
+#else
 #define LS1X_GMAC0_IRQ			LS1X_IRQ(1, 2)
 #define LS1X_GMAC1_IRQ			LS1X_IRQ(1, 3)
+#endif
 
-#define LS1X_IRQS		(LS1X_IRQ(4, 31) + 1 - LS1X_IRQ_BASE)
+/* Interrupt controllers */
+#if defined(CONFIG_LOONGSON1_LS1A)
+#define INTN 5
+#elif defined(CONFIG_LOONGSON1_LS1B)
+#define INTN 4
+#elif defined(CONFIG_LOONGSON1_LS1C)
+#define INTN 5
+#endif
+#define LS1X_IRQS		(LS1X_IRQ(INTN, 0) - LS1X_IRQ_BASE)
 
 #define NR_IRQS			(MIPS_CPU_IRQS + LS1X_IRQS)
 

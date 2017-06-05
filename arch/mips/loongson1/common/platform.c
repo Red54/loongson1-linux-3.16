@@ -14,9 +14,55 @@
 #include <linux/serial_8250.h>
 #include <linux/stmmac.h>
 #include <linux/usb/ehci_pdriver.h>
+#include <linux/usb/ohci_pdriver.h>
 #include <asm-generic/sizes.h>
 
 #include <loongson1.h>
+#include <nand.h>
+
+static struct mtd_partition ls1x_nand_partitions[] = {
+	{
+		.name	= "kernel",
+		.offset	= MTDPART_OFS_APPEND,
+		.size	= 14*1024*1024,
+	},  {
+		.name	= "rootfs",
+		.offset	= MTDPART_OFS_APPEND,
+		.size	= 100*1024*1024,
+	},  {
+		.name	= "data",
+		.offset	= MTDPART_OFS_APPEND,
+		.size	= MTDPART_SIZ_FULL,
+	},
+};
+
+static struct ls1x_nand_platform_data ls1x_nand_parts = {
+	.parts		= ls1x_nand_partitions,
+	.nr_parts	= ARRAY_SIZE(ls1x_nand_partitions),
+};
+
+static struct resource ls1x_nand_resources[] = {
+	[0] = {
+		.start	= LS1X_NAND_BASE,
+		.end	= LS1X_NAND_BASE + SZ_16K - 1,
+		.flags	= IORESOURCE_MEM,
+	},
+	[1] = {
+		.start	= LS1X_DMA0_IRQ,
+		.end	= LS1X_DMA0_IRQ,
+		.flags	= IORESOURCE_IRQ,
+	},
+};
+
+struct platform_device ls1x_nand_device = {
+	.name	= "ls1x-nand",
+	.id	= -1,
+	.dev	= {
+		.platform_data = &ls1x_nand_parts,
+	},
+	.num_resources	= ARRAY_SIZE(ls1x_nand_resources),
+	.resource	= ls1x_nand_resources,
+};
 
 #define LS1X_UART(_id)						\
 	{							\
@@ -119,6 +165,35 @@ struct platform_device ls1x_ehci_device = {
 	.dev		= {
 		.dma_mask = &ls1x_ehci_dmamask,
 		.platform_data = &ls1x_ehci_pdata,
+	},
+};
+
+/* USB OHCI */
+static u64 ls1x_ohci_dmamask = DMA_BIT_MASK(32);
+
+static struct resource ls1x_ohci_resources[] = {
+	[0] = {
+		.start	= LS1X_OHCI_BASE,
+		.end	= LS1X_OHCI_BASE + SZ_32K - 1,
+		.flags	= IORESOURCE_MEM,
+	},
+	[1] = {
+		.start	= LS1X_OHCI_IRQ,
+		.flags	= IORESOURCE_IRQ,
+	},
+};
+
+static struct usb_ohci_pdata ls1x_ohci_pdata = {
+};
+
+struct platform_device ls1x_ohci_device = {
+	.name		= "ohci-platform",
+	.id		= -1,
+	.num_resources	= ARRAY_SIZE(ls1x_ohci_resources),
+	.resource	= ls1x_ohci_resources,
+	.dev		= {
+		.dma_mask = &ls1x_ohci_dmamask,
+		.platform_data = &ls1x_ohci_pdata,
 	},
 };
 

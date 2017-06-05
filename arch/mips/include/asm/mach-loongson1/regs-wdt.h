@@ -16,7 +16,7 @@
 		((void __iomem *)KSEG1ADDR(LS1X_WDT_BASE + (x)))
 
 #define LS1X_WDT_EN			LS1X_WDT_REG(0x0)
-#define LS1X_WDT_SET			LS1X_WDT_REG(0x4)
-#define LS1X_WDT_TIMER			LS1X_WDT_REG(0x8)
+#define LS1X_WDT_TIMER			LS1X_WDT_REG(0x4)
+#define LS1X_WDT_SET			LS1X_WDT_REG(0x8)
 
 #endif /* __ASM_MACH_LOONGSON1_REGS_WDT_H */

@@ -21,8 +21,8 @@ const char *get_system_type(void)
 	unsigned int processor_id = (&current_cpu_data)->processor_id;
 
 	switch (processor_id & PRID_REV_MASK) {
-	case PRID_REV_LOONGSON1B:
-		return "LOONGSON LS1B";
+	case PRID_REV_LOONGSON1:
+		return "LOONGSON LS1";
 	default:
 		return "LOONGSON (unknown)";
 	}

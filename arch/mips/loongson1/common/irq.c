@@ -138,6 +138,9 @@ static void __init ls1x_irq_init(int base)
 	setup_irq(INT1_IRQ, &cascade_irqaction);
 	setup_irq(INT2_IRQ, &cascade_irqaction);
 	setup_irq(INT3_IRQ, &cascade_irqaction);
+#if defined(CONFIG_LOONGSON1_LS1A) || defined(CONFIG_LOONGSON1_LS1C)
+	setup_irq(INT4_IRQ, &cascade_irqaction);
+#endif
 }
 
 void __init arch_init_irq(void)

@@ -10,6 +10,7 @@
  */
 
 #include <linux/serial_reg.h>
+#include <linux/delay.h>
 #include <asm/bootinfo.h>
 
 #include <loongson1.h>
@@ -65,6 +66,14 @@ void __init prom_init(void)
 
 	memsize = env_or_default("memsize", DEFAULT_MEMSIZE);
 	highmemsize = env_or_default("highmemsize", 0x0);
+
+#if defined(CONFIG_LOONGSON1_LS1C)
+	__raw_writel(__raw_readl(LS1X_MUX_CTRL0) & (~USBHOST_SHUT), LS1X_MUX_CTRL0);
+	__raw_writel(__raw_readl(LS1X_MUX_CTRL1) & (~USBHOST_RSTN), LS1X_MUX_CTRL1);
+	mdelay(60);
+	/* reset stop */
+	__raw_writel(__raw_readl(LS1X_MUX_CTRL1) | USBHOST_RSTN, LS1X_MUX_CTRL1);
+#endif
 }
 
 void __init prom_free_prom_memory(void)

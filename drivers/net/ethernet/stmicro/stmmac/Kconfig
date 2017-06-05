@@ -13,6 +13,16 @@ config STMMAC_ETH
 
 if STMMAC_ETH
 
+config LS1X_GMAC0
+	bool "Loongson1 GMAC0 support"
+	default y
+	depends on MACH_LOONGSON1
+
+config LS1X_GMAC1
+	bool "Loongson1 GMAC1 support"
+	default n
+	depends on LOONGSON1_LS1A || LOONGSON1_LS1B
+
 config STMMAC_PLATFORM
 	bool "STMMAC Platform bus support"
 	depends on STMMAC_ETH

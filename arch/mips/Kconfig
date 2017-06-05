@@ -1221,12 +1221,28 @@ config CPU_LOONGSON2F
 	  have a similar programming interface with FPGA northbridge used in
 	  Loongson2E.
 
+config CPU_LOONGSON1A
+	bool "Loongson 1A"
+	depends on SYS_HAS_CPU_LOONGSON1A
+	select CPU_LOONGSON1
+	help
+	  The Loongson 1A is a 32-bit SoC, which implements the MIPS32
+	  release 2 instruction set.
+
 config CPU_LOONGSON1B
 	bool "Loongson 1B"
 	depends on SYS_HAS_CPU_LOONGSON1B
 	select CPU_LOONGSON1
 	help
 	  The Loongson 1B is a 32-bit SoC, which implements the MIPS32
+	  release 2 instruction set.
+
+config CPU_LOONGSON1C
+	bool "Loongson 1C"
+	depends on SYS_HAS_CPU_LOONGSON1C
+	select CPU_LOONGSON1
+	help
+	  The Loongson 1C is a 32-bit SoC, which implements the MIPS32
 	  release 2 instruction set.
 
 config CPU_MIPS32_R1
@@ -1601,7 +1617,13 @@ config SYS_HAS_CPU_LOONGSON2F
 	select CPU_SUPPORTS_ADDRWINCFG if 64BIT
 	select CPU_SUPPORTS_UNCACHED_ACCELERATED
 
+config SYS_HAS_CPU_LOONGSON1A
+	bool
+
 config SYS_HAS_CPU_LOONGSON1B
+	bool
+
+config SYS_HAS_CPU_LOONGSON1C
 	bool
 
 config SYS_HAS_CPU_MIPS32_R1

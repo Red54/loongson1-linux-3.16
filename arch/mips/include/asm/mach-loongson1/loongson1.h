@@ -15,10 +15,25 @@
 
 #define DEFAULT_MEMSIZE			256	/* If no memsize provided */
 
+#ifdef CONFIG_LOONGSON1_LS1C
+#define ls1x_osc_clk			24000000
+#define DIV_APB				1
+#else
+#define ls1x_osc_clk			33000000
+#define DIV_APB				2
+#endif
+
+#define LS1X_MUX_BASE			0x1fd00420
+
 /* Loongson 1 Register Bases */
 #define LS1X_INTC_BASE			0x1fd01040
+#ifdef CONFIG_LOONGSON1_LS1C
+#define LS1X_EHCI_BASE			0x1fe20000
+#define LS1X_OHCI_BASE			0x1fe28000
+#else
 #define LS1X_EHCI_BASE			0x1fe00000
 #define LS1X_OHCI_BASE			0x1fe08000
+#endif
 #define LS1X_GMAC0_BASE			0x1fe10000
 #define LS1X_GMAC1_BASE			0x1fe20000
 
@@ -32,13 +47,18 @@
 #define LS1X_I2C1_BASE			0x1fe68000
 #define LS1X_I2C2_BASE			0x1fe70000
 #define LS1X_PWM_BASE			0x1fe5c000
+#ifdef CONFIG_LOONGSON1_LS1A
+#define LS1X_WDT_BASE			0x1fe7c060
+#else
 #define LS1X_WDT_BASE			0x1fe5c060
+#endif
 #define LS1X_RTC_BASE			0x1fe64000
 #define LS1X_AC97_BASE			0x1fe74000
 #define LS1X_NAND_BASE			0x1fe78000
 #define LS1X_CLK_BASE			0x1fe78030
 
 #include <regs-clk.h>
+#include <regs-mux.h>
 #include <regs-wdt.h>
 
 #endif /* __ASM_MACH_LOONGSON1_LOONGSON1_H */

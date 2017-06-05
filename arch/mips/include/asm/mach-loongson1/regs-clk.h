@@ -19,6 +19,18 @@
 #define LS1X_CLK_PLL_DIV		LS1X_CLK_REG(0x4)
 
 /* Clock PLL Divisor Register Bits */
+#if defined(CONFIG_LOONGSON1_LS1C)
+#define DIV_DC				(0x7f << 24)
+#define DIV_CPU_EN			(0x1 << 15)
+#define DIV_CPU				(0x7f << 8)
+#define DIV_CPU_SEL			(0x1 << 0)
+
+#define DIV_DC_SHIFT			24
+#define DIV_CPU_SHIFT			8
+
+#define DIV_DC_WIDTH			7
+#define DIV_CPU_WIDTH			7
+#else
 #define DIV_DC_EN			(0x1 << 31)
 #define DIV_CPU_EN			(0x1 << 25)
 #define DIV_DDR_EN			(0x1 << 19)
@@ -30,5 +42,6 @@
 #define DIV_DC_WIDTH			5
 #define DIV_CPU_WIDTH			5
 #define DIV_DDR_WIDTH			5
+#endif
 
 #endif /* __ASM_MACH_LOONGSON1_REGS_CLK_H */
